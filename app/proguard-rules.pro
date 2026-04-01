@@ -1,21 +1,19 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Keep JNI entry points in BinaryDictionary — native method names must match
+# the C++ symbol names generated from the fully-qualified class name.
+-keepclasseswithmembernames class org.pocketworkstation.pckeyboard.BinaryDictionary {
+    native <methods>;
+}
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Keep custom View subclasses instantiated by XML inflation (LayoutInflater uses
+# the class name string from XML, so R8 cannot trace these call sites).
+-keep class org.pocketworkstation.pckeyboard.LatinKeyboardView { <init>(...); }
+-keep class org.pocketworkstation.pckeyboard.LatinKeyboardBaseView { <init>(...); }
+-keep class org.pocketworkstation.pckeyboard.CandidateView { <init>(...); }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Keep custom Preference subclasses referenced by class name in preference XML.
+-keep class org.pocketworkstation.pckeyboard.SeekBarPreference { <init>(...); }
+-keep class org.pocketworkstation.pckeyboard.VibratePreference { <init>(...); }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Retain line numbers in stack traces for crash reports.
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
