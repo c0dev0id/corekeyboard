@@ -20,12 +20,14 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 11
 
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '4.10.3'
 
       - name: Run lint
-        run: ./gradlew lint
+        run: gradle lint
 
   build:
     if: github.event_name == 'push' || github.event.label.name == 'run-build'
@@ -39,12 +41,14 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 11
 
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '4.10.3'
 
       - name: Build release APK
-        run: ./gradlew assembleRelease
+        run: gradle assembleRelease
 
       - name: Upload unsigned APK
         uses: actions/upload-artifact@v4
@@ -63,7 +67,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 11
 
       - name: Download unsigned APK
         uses: actions/download-artifact@v4
