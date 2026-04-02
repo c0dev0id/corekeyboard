@@ -1,29 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Action keys (functional). -->
-    <item android:state_active="true" android:state_pressed="true"
-          android:drawable="@color/key_background_fn_pressed_dmd_orange" />
-    <item android:state_active="true"
-          android:drawable="@color/key_background_fn_dmd_orange" />
+    <item android:state_active="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/key_background_fn_pressed_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item android:state_active="true">
+        <shape>
+            <solid android:color="@color/key_background_fn_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
 
     <!-- Toggle keys. Use checkable/checked state. -->
-    <item android:state_checkable="true" android:state_checked="true" android:state_pressed="true"
-          android:drawable="@color/key_background_toggle_on_pressed_dmd_orange" />
-    <item android:state_checkable="true" android:state_pressed="true"
-          android:drawable="@color/key_background_toggle_off_pressed_dmd_orange" />
-    <item android:state_checkable="true" android:state_checked="true"
-          android:drawable="@color/key_background_toggle_on_dmd_orange" />
-    <item android:state_checkable="true"
-          android:drawable="@color/key_background_toggle_off_dmd_orange" />
+    <item android:state_checkable="true" android:state_checked="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/key_background_toggle_on_pressed_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item android:state_checkable="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/key_background_toggle_off_pressed_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item android:state_checkable="true" android:state_checked="true">
+        <shape>
+            <solid android:color="@color/key_background_toggle_on_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item android:state_checkable="true">
+        <shape>
+            <solid android:color="@color/key_background_toggle_off_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
 
     <!-- Empty background keys. -->
-    <item android:state_empty="true" android:state_pressed="true"
-          android:drawable="@color/key_background_pressed_dmd_orange" />
-    <item android:state_empty="true"
-          android:drawable="@android:color/transparent" />
+    <item android:state_empty="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/key_background_pressed_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item android:state_empty="true" android:drawable="@android:color/transparent" />
 
     <!-- Normal keys. -->
-    <item android:state_pressed="true"
-          android:drawable="@color/key_background_pressed_dmd_orange" />
-    <item android:drawable="@color/key_background_dmd_orange" />
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/key_background_pressed_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/key_background_dmd_orange" />
+            <stroke android:width="1dp" android:color="@color/key_border_dmd_orange" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
 </selector>

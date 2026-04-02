@@ -62,4 +62,5 @@
     <color name="key_hint_color_dmd_orange">#B0B0B0</color>
     <color name="key_popup_background_dmd_orange">#2B2B2B</color>
     <color name="key_popup_pressed_dmd_orange">#F57C00</color>
+    <color name="key_border_dmd_orange">#555555</color>
 </resources>
