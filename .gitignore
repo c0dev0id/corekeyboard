@@ -11,3 +11,4 @@
 /captures
 gradle/wrapper/cache/
 .externalNativeBuild
+.gh_token
