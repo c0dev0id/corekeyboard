@@ -47,4 +47,19 @@
     <color name="key_background_pressed_material_light">#2637474F</color>
     <color name="key_text_color_material_light">#000000</color>
     <color name="key_hint_letter_color_material_light">#B337474F</color>
+
+<!--DMD Orange Theme Colors (androdash palette)-->
+    <color name="keyboard_background_dmd_orange">#1A1A1A</color>
+    <color name="key_background_dmd_orange">#2B2B2B</color>
+    <color name="key_background_pressed_dmd_orange">#3C3C3C</color>
+    <color name="key_background_fn_dmd_orange">#444444</color>
+    <color name="key_background_fn_pressed_dmd_orange">#6B2C00</color>
+    <color name="key_background_toggle_on_dmd_orange">#F57C00</color>
+    <color name="key_background_toggle_on_pressed_dmd_orange">#6B2C00</color>
+    <color name="key_background_toggle_off_dmd_orange">#444444</color>
+    <color name="key_background_toggle_off_pressed_dmd_orange">#5A5A5A</color>
+    <color name="key_text_color_dmd_orange">#FFFFFF</color>
+    <color name="key_hint_color_dmd_orange">#B0B0B0</color>
+    <color name="key_popup_background_dmd_orange">#2B2B2B</color>
+    <color name="key_popup_pressed_dmd_orange">#F57C00</color>
 </resources>
