@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Nightly CI workflow (`.github/workflows/nightly.yml`): builds a signed release APK daily at 02:00 UTC and publishes it to the `nightly` pre-release on GitHub.
 - ProGuard/R8 keep rules in `app/proguard-rules.pro` for JNI entry points (`BinaryDictionary`), XML-inflated views (`LatinKeyboardView`, `CandidateView`), and custom preference widgets.
 
+### Fixed
+- Crash when pressing the Options key on the keyboard: `startActivity()` from IME service context was missing `FLAG_ACTIVITY_NEW_TASK`
+- Crash when opening View, Feedback, Actions, or Language sub-screens in settings: implicit intents cannot start non-exported activities on API 31+ (even within the same app); preference XML intents are now explicit (package + class)
+
 ### Changed
 - Replaced old grey "Esc" launcher icon with adaptive vector icon matching codevoid brand identity (orange key grid with spacebar on dark background)
 - Rebranded from "Hacker's Keyboard" to "Core Keyboard" (UI text, package name `de.codevoid.corekeyboard`, internal `hk` abbreviations → `ck`)

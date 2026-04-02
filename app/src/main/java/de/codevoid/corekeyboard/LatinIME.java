@@ -1435,7 +1435,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void onOptionKeyPressed() {
-        startActivity(new Intent(this, LatinIMESettings.class));
+        launchSettings();
     }
 
     private void onOptionKeyLongPressed() {
