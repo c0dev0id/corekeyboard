@@ -31,6 +31,9 @@ If a .gh_token file is present, use the token to access GitHub and read CI/CD wo
 Do not attempt to build Android projects locally. All builds are handled by CI/CD.
 AGP cannot be accessed due to firewall restrictions. Do not try to work around this.
 
+# AndroidX Policy
+Do not migrate to AndroidX. The current `android.preference.*` classes are part of the Android framework (shipped in ROM, zero APK cost, no extra memory allocations). AndroidX preferences pull in `androidx.fragment`, `androidx.lifecycle`, `androidx.activity`, and `androidx.core` — adding ~1-2MB of bytecode, more class loading at startup, and Fragment/ViewModel/LiveData machinery that the app does not need. This app is performance-, latency-, and memory-critical. Prefer framework APIs over library wrappers wherever possible.
+
 # Library and Framework usage
 - Always use the latest version available
 
