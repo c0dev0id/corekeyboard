@@ -6,11 +6,13 @@ def keyAliasName     = System.getenv("KEY_ALIAS")
 def keyAliasPassword = System.getenv("KEY_PASSWORD")
 
 android {
-    compileSdkVersion 34
+    namespace 'de.codevoid.corekeyboard'
+    compileSdk 34
+    ndkVersion '26.1.10909125'
     defaultConfig {
         applicationId 'de.codevoid.corekeyboard'
-        minSdkVersion 34
-        targetSdkVersion 34
+        minSdk 34
+        targetSdk 34
         versionCode 1041001
         versionName "v1.41.1"
         testInstrumentationRunner "android.test.runner.AndroidJUnitRunner"
@@ -46,7 +48,7 @@ android {
     }
     productFlavors {
     }
-    lintOptions {
+    lint {
         checkReleaseBuilds false
         abortOnError false
     }
