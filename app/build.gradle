@@ -8,7 +8,7 @@ def keyAliasPassword = System.getenv("KEY_PASSWORD")
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId 'org.pocketworkstation.pckeyboard'
+        applicationId 'de.codevoid.corekeyboard'
         minSdkVersion 14
         targetSdkVersion 26
         versionCode 1041001

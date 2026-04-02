@@ -1,82 +1,63 @@
-# CLAUDE.md
+This file contains important informations for AI agents like claude, chatgpt and copilot.
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+# *MOST IMPORTANT RULES THAT MUST BE FOLLOWED*
+- *Always commit* every logical step! Don't batch unrelated changes into one commit.
+- *Always rebase* the working branch onto the latest main (or master, if main doesn't exist) at the end of a task. Resolve any conflicts during the rebase.
 
-## Build Constraints
+# Keep A Changelog
+Maintain a CHANGELOG.md file in every project, following the specification at:
+https://raw.githubusercontent.com/olivierlacan/keep-a-changelog/refs/heads/main/CHANGELOG.md
+Update it after each development task with a human-readable description of what changed.
+Don't list individual commits. Skip entries for trivial or non-user-facing changes that don't affect app behavior.
 
-**Do not attempt to build this project locally.** All builds are handled by CI/CD. AGP (Android Gradle Plugin) cannot be accessed due to firewall restrictions — do not try to work around this.
+# Development Journal
+Maintain a file at .github/development-journal.md containing:
+- Software Stack Information
+- Key Decisions (context and rationale to keep in mind for future work)
+- Core Features
 
-## Project Overview
+# Git Configuration Rules
+All git operations are performed on behalf of the user. Before any git operation, configure:
+- user.name = c0dev0id
+- user.email = sh+git@codevoid.de
 
-Hacker's Keyboard is an Android IME (Input Method Editor) — a soft keyboard app. It provides a desktop-style 5-row layout with number row, arrow keys, and function keys. The codebase is legacy Java (Java 7 style, Android API 14+) with native C++ for dictionary operations. Package: `org.pocketworkstation.pckeyboard`.
+Never add Co-Authored-By or any other personal attribution to commits or pull requests.
 
-## Architecture
+Remove all lines that contain the word "claude" from pull request and commit messages.
 
-The app follows a layered IME architecture:
+If a .gh_token file is present, use the token to access GitHub and read CI/CD workflow results.
 
-### Core Input Flow
-1. **`LatinIME.java`** — The `InputMethodService` subclass. Central hub: receives all key events, manages suggestion state, dispatches vibration/sound feedback, reads settings. Most feature work touches this file.
-2. **`LatinKeyboardSwitcher.java`** — Manages transitions between keyboard modes (alpha, symbols, phone, etc.) and layout variants (full/compact, 4-row/5-row).
-3. **`PointerTracker.java`** — Handles raw multitouch events; tracks individual fingers, detects long-press and slide-off behaviors. Feeds into `LatinKeyboardView`.
+# Build Constraints
+Do not attempt to build Android projects locally. All builds are handled by CI/CD.
+AGP cannot be accessed due to firewall restrictions. Do not try to work around this.
 
-### Keyboard Model & Rendering
-- **`Keyboard.java`** — Parses keyboard layout XML into `Key` objects. Base class shared across layout variants.
-- **`LatinKeyboard.java`** — Extends `Keyboard` with rendering-specific state: shift/caps indicators, Enter key label changes (Go/Search/Send/Done), language display on space bar.
-- **`LatinKeyboardBaseView.java`** / **`LatinKeyboardView.java`** — Custom `View` subclasses that draw the keyboard and dispatch touch events to `PointerTracker`.
+# Library and Framework usage
+- Always use the latest version available
 
-### Suggestion Engine
-- **`Suggest.java`** — Orchestrates word suggestions: queries dictionaries, applies proximity correction, ranks candidates.
-- **`BinaryDictionary.java`** — JNI wrapper around the native dictionary. Loads the binary trie from `res/raw/main.dict`.
-- **`dictionary.cpp`** — Native C++ trie search with frequency scoring and bigram support. Built as `libjni_pckeyboard.so` via CMake (`app/CMakeLists.txt`).
-- `UserDictionary`, `AutoDictionary`, `ContactsDictionary`, `UserBigramDictionary` — supplementary dictionary sources merged by `Suggest`.
+# Code Style
+- KISS — Keep it Simple, Stupid.
+- Write testable code.
+- Write unit tests that verify assumptions and cover edge cases.
+- No database or schema migration code during development (version < 1.0.0).
 
-### Text Composition
-- **`WordComposer.java`** — Accumulates key strokes into the current word being typed; tracks proximity data for correction.
-- **`ComposeSequence.java`** / **`DeadAccentSequence.java`** — Handle multi-keypress composition sequences (dead keys, accent combinations). `LatinIME` implements `ComposeSequencing`.
+# Communication Standards
+- Be clear, direct, and evidence-based.
+- Push back when something seems wrong or suboptimal.
+- If the user uses imprecise terminology, provide the correct term.
 
-### Settings & Configuration
-- **`GlobalKeyboardSettings.java`** — Singleton holding all runtime-readable preferences; loaded from `SharedPreferences`.
-- **`LatinIMESettings.java`** — `PreferenceActivity` for the settings screen.
-- **`LanguageSwitcher.java`** — Resolves the active input language and maps it to keyboard layout resources.
+# Finding Solutions
+- Don't jump to conclusions. If there's any ambiguity, ask for clarification first.
+- The obvious fix is often not the right one. Approach problems from multiple angles:
+  - Consider whether a design pattern would prevent recurring issues.
+  - Evaluate whether a different library, technique, or component is a better fit than working around limitations of the current approach.
+  - Step back and examine the architecture — the root cause may point to a structural improvement rather than a local patch.
 
-### Native Build
-CMake target defined in `app/CMakeLists.txt`. Sources are in `app/src/main/jni/`. The JNI entry point is `org_pocketworkstation_pckeyboard_BinaryDictionary.cpp`.
+# About the User (Target Group Definition)
+- The user is a minimalist who values performance, low latency and over feature richness.
+- The user prefers clean software architecture and technical correctness and will adapt workflow or feature expectations to fit the software stack rather than accept complex code or workarounds.
+- The user may not be aware of all capabilities offered by the libraries and frameworks in use.
 
-## Key Resource Conventions
-
-**Keyboard layouts** live in `app/src/main/res/xml/`:
-- `kbd_full.xml` — 5-row desktop layout (primary)
-- `kbd_compact.xml` — 4-row compact variant
-- `kbd_extension_full.xml` / `kbd_extension.xml` — Extended key rows
-- `kbd_popup_*.xml` — Long-press popup character sets per key
-
-**Per-language overrides** use `xml-<locale>/` resource directories (e.g., `xml-ru/` for Russian). These override the default XML layouts for that locale.
-
-**Themes** are declared as separate input view layouts: `res/layout/input_material_light.xml`, `input_material_dark.xml`, etc. The active theme is selected by `LatinKeyboard` at inflation time.
-
-## Validation Scripts
-
-The `java/` directory contains helper scripts for validating keyboard layout maps:
-- `CheckMaps.sh` / `CheckMap.pl` — Verify that key popup maps are consistent across layout files.
-- `AddMissing.pl` — Identifies missing characters in dictionary coverage.
-
-Run these directly with `perl` / `sh` if verifying layout changes.
-
-## CI / Nightly Releases
-
-`.github/workflows/nightly.yml` runs daily at 02:00 UTC and publishes a signed release APK to the `nightly` pre-release tag on GitHub. It requires four repository secrets:
-
-| Secret | Content |
-|---|---|
-| `KEYSTORE_BASE64` | Base64-encoded `.jks` keystore file |
-| `KEYSTORE_PASSWORD` | Keystore store password |
-| `KEY_ALIAS` | Key alias within the keystore |
-| `KEY_PASSWORD` | Key password |
-
-The release build has `minifyEnabled true` with `proguard-android-optimize.txt`. Keep rules for JNI entry points and XML-instantiated views/preferences are in `app/proguard-rules.pro`.
-
-## Known Constraints
-
-- `minSdkVersion 14`, `targetSdkVersion 26` — The codebase uses pre-AndroidX support libraries (`android.support.*`). Do not migrate to AndroidX without a full audit.
-- Lint is disabled for release builds (`checkReleaseBuilds false`). Running `./gradlew lint` will still produce reports for debug builds.
-- There are no unit tests in the repository. Instrumented test infrastructure (`espresso-core`) is declared but no test classes exist.
+# Library and Framework Usage
+- Always use the latest version available.
+- Before implementing a feature from scratch, check whether the libraries and frameworks already in use provide built-in support for it — possibly in a different form than the user requested. If so, explain the available capabilities and let the user decide how to adjust the request.
+  - Example: The user asks for a specific animation that would require a custom implementation, but the UI framework already provides a set of built-in animations. Present those options and let the user choose.
