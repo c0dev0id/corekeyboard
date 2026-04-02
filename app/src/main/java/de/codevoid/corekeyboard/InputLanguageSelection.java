@@ -208,9 +208,9 @@ public class InputLanguageSelection extends PreferenceActivity {
     private boolean hasDictionary(Locale locale) {
         Resources res = getResources();
         Configuration conf = res.getConfiguration();
-        Locale saveLocale = conf.locale;
+        Locale saveLocale = conf.getLocales().get(0);
         boolean haveDictionary = false;
-        conf.locale = locale;
+        conf.setLocale(locale);
         res.updateConfiguration(conf, res.getDisplayMetrics());
 
         int[] dictionaries = LatinIME.getDictionary(res);
@@ -230,7 +230,7 @@ public class InputLanguageSelection extends PreferenceActivity {
         }
 
         bd.close();
-        conf.locale = saveLocale;
+        conf.setLocale(saveLocale);
         res.updateConfiguration(conf, res.getDisplayMetrics());
         return haveDictionary;
     }
@@ -264,7 +264,7 @@ public class InputLanguageSelection extends PreferenceActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         Editor editor = sp.edit();
         editor.putString(LatinIME.PREF_SELECTED_LANGUAGES, checkedLanguages);
-        SharedPreferencesCompat.apply(editor);
+        editor.apply();
     }
 
     private static String asString(Set<String> set) {

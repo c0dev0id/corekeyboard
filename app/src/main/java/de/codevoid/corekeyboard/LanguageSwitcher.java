@@ -91,7 +91,7 @@ public class LanguageSwitcher {
     }
 
     private void loadDefaults() {
-        mDefaultInputLocale = mIme.getResources().getConfiguration().locale;
+        mDefaultInputLocale = mIme.getResources().getConfiguration().getLocales().get(0);
         String country = mDefaultInputLocale.getCountry();
         mDefaultInputLanguage = mDefaultInputLocale.getLanguage() +
                 (TextUtils.isEmpty(country) ? "" : "_" + country);
@@ -215,7 +215,7 @@ public class LanguageSwitcher {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mIme);
         Editor editor = sp.edit();
         editor.putString(LatinIME.PREF_INPUT_LANGUAGE, getInputLanguage());
-        SharedPreferencesCompat.apply(editor);
+        editor.apply();
     }
 
     static String toTitleCase(String s) {

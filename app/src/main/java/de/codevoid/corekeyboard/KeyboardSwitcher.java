@@ -328,8 +328,8 @@ public class KeyboardSwitcher implements
         if (keyboard == null) {
             Resources orig = mInputMethodService.getResources();
             Configuration conf = orig.getConfiguration();
-            Locale saveLocale = conf.locale;
-            conf.locale = LatinIME.sKeyboardSettings.inputLocale;
+            Locale saveLocale = conf.getLocales().get(0);
+            conf.setLocale(LatinIME.sKeyboardSettings.inputLocale);
             orig.updateConfiguration(conf, null);
             keyboard = new LatinKeyboard(mInputMethodService, id.mXml,
                     id.mKeyboardMode, id.mKeyboardHeightPercent);
@@ -348,7 +348,7 @@ public class KeyboardSwitcher implements
             }
             mKeyboards.put(id, new SoftReference<LatinKeyboard>(keyboard));
 
-            conf.locale = saveLocale;
+            conf.setLocale(saveLocale);
             orig.updateConfiguration(conf, null);
         }
         return keyboard;

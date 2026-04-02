@@ -367,11 +367,11 @@ public class LatinIME extends InputMethodService implements
         mLanguageSwitcher.loadLocales(prefs);
         mKeyboardSwitcher = KeyboardSwitcher.getInstance();
         mKeyboardSwitcher.setLanguageSwitcher(mLanguageSwitcher);
-        mSystemLocale = conf.locale.toString();
-        mLanguageSwitcher.setSystemLocale(conf.locale);
+        mSystemLocale = conf.getLocales().get(0).toString();
+        mLanguageSwitcher.setSystemLocale(conf.getLocales().get(0));
         String inputLanguage = mLanguageSwitcher.getInputLanguage();
         if (inputLanguage == null) {
-            inputLanguage = conf.locale.toString();
+            inputLanguage = conf.getLocales().get(0).toString();
         }
         Resources res = getResources();
         mReCorrectionEnabled = prefs.getBoolean(PREF_RECORRECTION_ENABLED,
@@ -571,8 +571,8 @@ public class LatinIME extends InputMethodService implements
 
         Resources orig = getResources();
         Configuration conf = orig.getConfiguration();
-        Locale saveLocale = conf.locale;
-        conf.locale = new Locale(locale);
+        Locale saveLocale = conf.getLocales().get(0);
+        conf.setLocale(new Locale(locale));
         orig.updateConfiguration(conf, orig.getDisplayMetrics());
         if (mSuggest != null) {
             mSuggest.close();
@@ -612,7 +612,7 @@ public class LatinIME extends InputMethodService implements
                 .getString(R.string.sentence_separators);
         initSuggestPuncList();
 
-        conf.locale = saveLocale;
+        conf.setLocale(saveLocale);
         orig.updateConfiguration(conf, orig.getDisplayMetrics());
     }
 
@@ -640,13 +640,13 @@ public class LatinIME extends InputMethodService implements
         // locale (mSystemLocale), then reload the input locale list from the
         // latin ime settings (shared prefs) and reset the input locale
         // to the first one.
-        final String systemLocale = conf.locale.toString();
+        final String systemLocale = conf.getLocales().get(0).toString();
         if (!TextUtils.equals(systemLocale, mSystemLocale)) {
             mSystemLocale = systemLocale;
             if (mLanguageSwitcher != null) {
                 mLanguageSwitcher.loadLocales(PreferenceManager
                         .getDefaultSharedPreferences(this));
-                mLanguageSwitcher.setSystemLocale(conf.locale);
+                mLanguageSwitcher.setSystemLocale(conf.getLocales().get(0));
                 toggleLanguage(true, true);
             } else {
                 reloadKeyboards();
@@ -3375,7 +3375,7 @@ public class LatinIME extends InputMethodService implements
         // mBigramSuggestionEnabled = sp.getBoolean(
         // PREF_BIGRAM_SUGGESTIONS, true) & mShowSuggestions;
         updateCorrectionMode();
-        updateAutoTextEnabled(mResources.getConfiguration().locale);
+        updateAutoTextEnabled(mResources.getConfiguration().getLocales().get(0));
         mLanguageSwitcher.loadLocales(sp);
         mAutoCapActive = mAutoCapPref && mLanguageSwitcher.allowAutoCap();
         mDeadKeysActive = mLanguageSwitcher.allowDeadKeys();
