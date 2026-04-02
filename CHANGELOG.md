@@ -14,6 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 - Crash when pressing the Options key on the keyboard: `startActivity()` from IME service context was missing `FLAG_ACTIVITY_NEW_TASK`
 - Crash when opening View, Feedback, Actions, or Language sub-screens in settings: implicit intents cannot start non-exported activities on API 31+ (even within the same app); preference XML intents are now explicit (package + class)
+- Settings key on keyboard no longer opens settings: `launchSettings()` was calling `requestHideSelf()` before `startActivity()`, causing Android 12+ background activity start restriction to silently block the launch; now starts the activity while the IME window is still visible
+- DMD Orange theme: keys had no visible borders, making it hard to distinguish individual keys; key drawables now use shapes with a 1dp stroke
+- CI workflow was naming release APKs `hackerskeyboard-*`; renamed to `corekeyboard-*`
 
 ### Changed
 - Replaced old grey "Esc" launcher icon with adaptive vector icon matching codevoid brand identity (orange key grid with spacebar on dark background)

@@ -37,9 +37,9 @@ jobs:
         run: |
           DATE=$(date -u +%Y-%m-%d)
           mv app/build/outputs/apk/release/app-release.apk \
-             app/build/outputs/apk/release/hackerskeyboard-nightly-${DATE}.apk
-          echo "APK_PATH=app/build/outputs/apk/release/hackerskeyboard-nightly-${DATE}.apk" >> "$GITHUB_ENV"
-          echo "APK_NAME=hackerskeyboard-nightly-${DATE}.apk" >> "$GITHUB_ENV"
+             app/build/outputs/apk/release/corekeyboard-nightly-${DATE}.apk
+          echo "APK_PATH=app/build/outputs/apk/release/corekeyboard-nightly-${DATE}.apk" >> "$GITHUB_ENV"
+          echo "APK_NAME=corekeyboard-nightly-${DATE}.apk" >> "$GITHUB_ENV"
 
       - name: Publish nightly release
         uses: ncipollo/release-action@v1
