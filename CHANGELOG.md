@@ -19,6 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Fixed `PendingIntent` flags (added `FLAG_IMMUTABLE`, required since targetSdk 31)
 - Added `android:exported` attributes to all manifest components (required since targetSdk 31)
 - Fixed C++ compiler warnings in native dictionary (empty LOGI macro → variadic no-op)
-- AGP upgraded from 3.2.1 to 4.2.2, Gradle from 4.10.3 to 6.7.1
+- AGP upgraded from 3.2.1 to 8.7.3, Gradle from 4.10.3 to 8.11, NDK pinned to r26b
+- Replaced deprecated `Configuration.locale` field access with `getLocales()`/`setLocale()`
+- Deleted `SharedPreferencesCompat` (reflection shim for `Editor.apply()`, dead since API 9)
+- Replaced `jcenter()` with `mavenCentral()` in build configuration
 - Release build now has `minifyEnabled true` with `proguard-android-optimize.txt` (previously shrinking was disabled).
 - Signing config reads from environment variables (`KEYSTORE_PATH`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`); unsigned local builds continue to work without those variables set.
