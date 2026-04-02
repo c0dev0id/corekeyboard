@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - ProGuard/R8 keep rules in `app/proguard-rules.pro` for JNI entry points (`BinaryDictionary`), XML-inflated views (`LatinKeyboardView`, `CandidateView`), and custom preference widgets.
 
 ### Changed
+- Replaced old grey "Esc" launcher icon with adaptive vector icon matching codevoid brand identity (orange key grid with spacebar on dark background)
 - Rebranded from "Hacker's Keyboard" to "Core Keyboard" (UI text, package name `de.codevoid.corekeyboard`, internal `hk` abbreviations → `ck`)
 - Raised minSdk/targetSdk to API 34 (Android 14)
 - Replaced support library `NotificationCompat` with framework `Notification.Builder`; removed all `com.android.support` dependencies
