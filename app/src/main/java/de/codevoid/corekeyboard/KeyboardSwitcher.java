@@ -667,9 +667,11 @@ public class KeyboardSwitcher implements
         if (isAutoCompletion != mIsAutoCompletionActive) {
             LatinKeyboardView keyboardView = getInputView();
             mIsAutoCompletionActive = isAutoCompletion;
-            keyboardView.invalidateKey(((LatinKeyboard) keyboardView
-                    .getKeyboard())
-                    .onAutoCompletionStateChanged(isAutoCompletion));
+            if (keyboardView != null && keyboardView.getKeyboard() != null) {
+                keyboardView.invalidateKey(((LatinKeyboard) keyboardView
+                        .getKeyboard())
+                        .onAutoCompletionStateChanged(isAutoCompletion));
+            }
         }
     }
 

@@ -242,9 +242,11 @@ public class LatinIMESettings extends PreferenceActivity
 
     private void updateSummaries() {
         Resources res = getResources();
-        mSettingsKeyPreference.setSummary(
-                res.getStringArray(R.array.settings_key_modes)
-                [mSettingsKeyPreference.findIndexOfValue(mSettingsKeyPreference.getValue())]);
+        int settingsKeyIdx = mSettingsKeyPreference.findIndexOfValue(mSettingsKeyPreference.getValue());
+        if (settingsKeyIdx >= 0) {
+            mSettingsKeyPreference.setSummary(
+                    res.getStringArray(R.array.settings_key_modes)[settingsKeyIdx]);
+        }
 
         mInputConnectionInfo.setSummary(String.format("%s type=%s",
                 LatinIME.sKeyboardSettings.editorPackageName,
@@ -258,9 +260,11 @@ public class LatinIMESettings extends PreferenceActivity
     }
 
     private void updateVoiceModeSummary() {
-        mVoicePreference.setSummary(
-                getResources().getStringArray(R.array.voice_input_modes_summary)
-                [mVoicePreference.findIndexOfValue(mVoicePreference.getValue())]);
+        int voiceIdx = mVoicePreference.findIndexOfValue(mVoicePreference.getValue());
+        if (voiceIdx >= 0) {
+            mVoicePreference.setSummary(
+                    getResources().getStringArray(R.array.voice_input_modes_summary)[voiceIdx]);
+        }
     }
 
     @Override

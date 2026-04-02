@@ -175,6 +175,7 @@ public class EditingUtil {
 
     public static CharSequence getPreviousWord(InputConnection connection,
             String sentenceSeperators) {
+        if (connection == null) return null;
         //TODO: Should fix this. This could be slow!
         CharSequence prev = connection.getTextBeforeCursor(LOOKBACK_CHARACTER_NUM, 0);
         if (prev == null) {

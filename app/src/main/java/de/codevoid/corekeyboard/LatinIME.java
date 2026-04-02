@@ -2246,7 +2246,10 @@ public class LatinIME extends InputMethodService implements
 
     private void abortCorrection(boolean force) {
         if (force || TextEntryState.isCorrecting()) {
-            getCurrentInputConnection().finishComposingText();
+            InputConnection ic = getCurrentInputConnection();
+            if (ic != null) {
+                ic.finishComposingText();
+            }
             clearSuggestions();
         }
     }
@@ -2465,6 +2468,7 @@ public class LatinIME extends InputMethodService implements
 
     private void updateSuggestions() {
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
+        if (inputView == null || inputView.getKeyboard() == null) return;
         ((LatinKeyboard) inputView.getKeyboard()).setPreferredLetters(null);
 
         // Check if we have a suggestion engine attached.
@@ -2487,8 +2491,10 @@ public class LatinIME extends InputMethodService implements
 
     private void showCorrections(WordAlternatives alternatives) {
         List<CharSequence> stringList = alternatives.getAlternatives();
-        ((LatinKeyboard) mKeyboardSwitcher.getInputView().getKeyboard())
-                .setPreferredLetters(null);
+        LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
+        if (inputView != null && inputView.getKeyboard() != null) {
+            ((LatinKeyboard) inputView.getKeyboard()).setPreferredLetters(null);
+        }
         showSuggestions(stringList, alternatives.getOriginalWord(), false,
                 false);
     }
@@ -2505,8 +2511,11 @@ public class LatinIME extends InputMethodService implements
 
         int[] nextLettersFrequencies = mSuggest.getNextLettersFrequencies();
 
-        ((LatinKeyboard) mKeyboardSwitcher.getInputView().getKeyboard())
-                .setPreferredLetters(nextLettersFrequencies);
+        LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
+        if (inputView != null && inputView.getKeyboard() != null) {
+            ((LatinKeyboard) inputView.getKeyboard())
+                    .setPreferredLetters(nextLettersFrequencies);
+        }
 
         boolean correctionAvailable = !mInputTypeNoAutoCorrect
                 && mSuggest.hasMinimalCorrection();
@@ -2669,7 +2678,9 @@ public class LatinIME extends InputMethodService implements
         saveWordInHistory(suggestion);
         mPredicting = false;
         mCommittedLength = suggestion.length();
-        ((LatinKeyboard) inputView.getKeyboard()).setPreferredLetters(null);
+        if (inputView != null && inputView.getKeyboard() != null) {
+            ((LatinKeyboard) inputView.getKeyboard()).setPreferredLetters(null);
+        }
         // If we just corrected a word, then don't show punctuations
         if (!correcting) {
             setNextSuggestions();
@@ -3131,8 +3142,10 @@ public class LatinIME extends InputMethodService implements
 
     public void onRelease(int primaryCode) {
         // Reset any drag flags in the keyboard
-        ((LatinKeyboard) mKeyboardSwitcher.getInputView().getKeyboard())
-                .keyReleased();
+        LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
+        if (inputView != null && inputView.getKeyboard() != null) {
+            ((LatinKeyboard) inputView.getKeyboard()).keyReleased();
+        }
         // vibrate();
         final boolean distinctMultiTouch = mKeyboardSwitcher
                 .hasDistinctMultitouch();
