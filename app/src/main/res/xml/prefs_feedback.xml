@@ -15,7 +15,7 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    	xmlns:hk="http://schemas.android.com/apk/res-auto"
+    	xmlns:ck="http://schemas.android.com/apk/res-auto"
         android:title="@string/pref_screen_feedback_title"
         android:key="feedback_settings">
 
@@ -27,10 +27,10 @@
 
     <de.codevoid.corekeyboard.VibratePreference		
             android:defaultValue="40"
-            hk:minValue="5"
-            hk:maxValue="200"
-            hk:logScale="true"
-            hk:displayFormat="%.0f ms"
+            ck:minValue="5"
+            ck:maxValue="200"
+            ck:logScale="true"
+            ck:displayFormat="%.0f ms"
             android:key="vibrate_len"
             android:title="@string/title_vibrate_len"
             android:persistent="true"
@@ -53,9 +53,9 @@
     
     <de.codevoid.corekeyboard.SeekBarPreferenceString
             android:defaultValue="@string/default_click_volume"
-            hk:minValue="0"
-            hk:maxValue="1"
-            hk:asPercent="true"
+            ck:minValue="0"
+            ck:maxValue="1"
+            ck:asPercent="true"
             android:key="pref_click_volume"
             android:title="@string/title_click_volume"
             android:persistent="true"

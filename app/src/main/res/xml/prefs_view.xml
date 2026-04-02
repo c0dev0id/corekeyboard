@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:hk="http://schemas.android.com/apk/res-auto"
+    xmlns:ck="http://schemas.android.com/apk/res-auto"
     android:key="prefs_view"
     android:title="@string/pref_screen_view_title" >
 
@@ -32,30 +32,30 @@
 
         <de.codevoid.corekeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
-            hk:minValue="0.5"
-            hk:maxValue="2.0"
-            hk:logScale="true"
-            hk:asPercent="true"
+            ck:minValue="0.5"
+            ck:maxValue="2.0"
+            ck:logScale="true"
+            ck:asPercent="true"
             android:key="pref_label_scale_v2"
             android:persistent="true"
             android:title="@string/title_label_scale" />
 
         <de.codevoid.corekeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
-            hk:minValue="0.5"
-            hk:maxValue="8.0"
-            hk:logScale="true"
-            hk:asPercent="true"
+            ck:minValue="0.5"
+            ck:maxValue="8.0"
+            ck:logScale="true"
+            ck:asPercent="true"
             android:key="pref_candidate_scale"
             android:persistent="true"
             android:title="@string/title_candidate_scale" />
 
         <de.codevoid.corekeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
-            hk:minValue="0.5"
-            hk:maxValue="1.0"
-            hk:step="0.05"
-            hk:asPercent="true"
+            ck:minValue="0.5"
+            ck:maxValue="1.0"
+            ck:step="0.05"
+            ck:asPercent="true"
             android:key="pref_top_row_scale"
             android:persistent="true"
             android:title="@string/title_top_row_scale" />

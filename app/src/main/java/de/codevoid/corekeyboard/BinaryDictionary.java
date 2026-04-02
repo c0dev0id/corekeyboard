@@ -62,7 +62,7 @@ public class BinaryDictionary extends Dictionary {
     static {
         try {
             System.loadLibrary("jni_pckeyboard");
-            Log.i("PCKeyboard", "loaded jni_pckeyboard");
+            Log.i("CoreKeyboard", "loaded jni_pckeyboard");
         } catch (UnsatisfiedLinkError ule) {
             Log.e("BinaryDictionary", "Could not load native library jni_pckeyboard");
         }
@@ -146,7 +146,7 @@ public class BinaryDictionary extends Dictionary {
                         TYPED_LETTER_MULTIPLIER, FULL_WORD_FREQ_MULTIPLIER, total);
                 mDictLength = total;
             }
-            if (mDictLength > 10000) Log.i("PCKeyboard", "Loaded dictionary, len=" + mDictLength);
+            if (mDictLength > 10000) Log.i("CoreKeyboard", "Loaded dictionary, len=" + mDictLength);
         } catch (IOException e) {
             Log.w(TAG, "No available memory for binary dictionary");
         } catch (UnsatisfiedLinkError e) {

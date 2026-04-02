@@ -15,7 +15,7 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    	xmlns:hk="http://schemas.android.com/apk/res-auto"
+    	xmlns:ck="http://schemas.android.com/apk/res-auto"
         android:title="@string/english_ime_settings"
         android:key="english_ime_settings">
 
@@ -25,10 +25,10 @@
 
     <de.codevoid.corekeyboard.SeekBarPreferenceString
             android:defaultValue="@string/default_height_portrait"
-            hk:minValue="15"
-            hk:maxValue="75"
-            hk:step="1"
-            hk:displayFormat="%.0f%%"
+            ck:minValue="15"
+            ck:maxValue="75"
+            ck:step="1"
+            ck:displayFormat="%.0f%%"
             android:key="settings_height_portrait"
             android:title="@string/title_keyboard_height_portrait"
             android:persistent="true"
@@ -36,10 +36,10 @@
 
     <de.codevoid.corekeyboard.SeekBarPreferenceString
             android:defaultValue="@string/default_height_landscape"
-            hk:minValue="15"
-            hk:maxValue="75"
-            hk:step="1"
-            hk:displayFormat="%.0f%%"
+            ck:minValue="15"
+            ck:maxValue="75"
+            ck:step="1"
+            ck:displayFormat="%.0f%%"
             android:key="settings_height_landscape"
             android:title="@string/title_keyboard_height_landscape"
             android:persistent="true"
@@ -213,10 +213,10 @@
 
     <de.codevoid.corekeyboard.SeekBarPreferenceString
             android:defaultValue="@string/default_long_press_duration"
-            hk:minValue="100"
-            hk:maxValue="2000"
-            hk:logScale="true"
-            hk:displayFormat="%.0f ms"
+            ck:minValue="100"
+            ck:maxValue="2000"
+            ck:logScale="true"
+            ck:displayFormat="%.0f ms"
             android:key="pref_long_press_duration"
             android:title="@string/title_long_press_duration"
             android:persistent="true"

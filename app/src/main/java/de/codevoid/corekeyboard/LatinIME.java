@@ -86,7 +86,7 @@ public class LatinIME extends InputMethodService implements
         LatinKeyboardBaseView.OnKeyboardActionListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "PCKeyboardIME";
-    private static final String NOTIFICATION_CHANNEL_ID = "PCKeyboard";
+    private static final String NOTIFICATION_CHANNEL_ID = "CoreKeyboard";
     private static final int NOTIFICATION_ONGOING_ID = 1001;
     static Map<Integer, String> ESC_SEQUENCES;
     static Map<Integer, Integer> CTRL_SEQUENCES;
@@ -353,7 +353,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onCreate() {
-        Log.i("PCKeyboard", "onCreate(), os.version=" + System.getProperty("os.version"));
+        Log.i("CoreKeyboard", "onCreate(), os.version=" + System.getProperty("os.version"));
         KeyboardSwitcher.init(this);
         super.onCreate();
         sInstance = this;
@@ -492,7 +492,7 @@ public class LatinIME extends InputMethodService implements
             String body = "Select this to open the keyboard. Disable in settings.";
 
             Notification notification = new Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
-                    .setSmallIcon(R.drawable.icon_hk_notification)
+                    .setSmallIcon(R.drawable.icon_ck_notification)
                     .setColor(0xff220044)
                     .setAutoCancel(false)
                     .setTicker(text)
@@ -635,7 +635,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onConfigurationChanged(Configuration conf) {
-        Log.i("PCKeyboard", "onConfigurationChanged()");
+        Log.i("CoreKeyboard", "onConfigurationChanged()");
         // If the system locale changes and is different from the saved
         // locale (mSystemLocale), then reload the input locale list from the
         // latin ime settings (shared prefs) and reset the input locale
@@ -738,7 +738,7 @@ public class LatinIME extends InputMethodService implements
         sKeyboardSettings.editorFieldId = attribute.fieldId;
         sKeyboardSettings.editorInputType = attribute.inputType;
 
-        //Log.i("PCKeyboard", "onStartInputView " + attribute + ", inputType= " + Integer.toHexString(attribute.inputType) + ", restarting=" + restarting);
+        //Log.i("CoreKeyboard", "onStartInputView " + attribute + ", inputType= " + Integer.toHexString(attribute.inputType) + ", restarting=" + restarting);
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
         // In landscape mode, this method gets called without the input view
         // being created.
@@ -2892,7 +2892,7 @@ public class LatinIME extends InputMethodService implements
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
-        Log.i("PCKeyboard", "onSharedPreferenceChanged()");
+        Log.i("CoreKeyboard", "onSharedPreferenceChanged()");
         boolean needReload = false;
         Resources res = getResources();
         
@@ -3509,7 +3509,7 @@ public class LatinIME extends InputMethodService implements
 
     static int getPrefInt(SharedPreferences prefs, String prefName, int defVal) {
         String prefVal = prefs.getString(prefName, Integer.toString(defVal));
-        //Log.i("PCKeyboard", "getPrefInt " + prefName + " = " + prefVal + ", default " + defVal);
+        //Log.i("CoreKeyboard", "getPrefInt " + prefName + " = " + prefVal + ", default " + defVal);
         return getIntFromString(prefVal, defVal);
     }
 

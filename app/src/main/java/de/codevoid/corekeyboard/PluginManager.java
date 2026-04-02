@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PluginManager extends BroadcastReceiver {
-    private static String TAG = "PCKeyboard";
-    private static String HK_INTENT_DICT = "de.codevoid.DICT";
+    private static String TAG = "CoreKeyboard";
+    private static String CK_INTENT_DICT = "de.codevoid.DICT";
     private static String SOFTKEYBOARD_INTENT_DICT = "com.menny.android.anysoftkeyboard.DICTIONARY";
     private static String SOFTKEYBOARD_DICT_RESOURCE_METADATA_NAME = "com.menny.android.anysoftkeyboard.dictionaries";
     private LatinIME mIME;
@@ -119,7 +119,7 @@ public class PluginManager extends BroadcastReceiver {
     }
 
     static void getHKDictionaries(PackageManager packageManager) {
-        Intent dictIntent = new Intent(HK_INTENT_DICT);
+        Intent dictIntent = new Intent(CK_INTENT_DICT);
         List<ResolveInfo> dictPacks = packageManager.queryIntentActivities(dictIntent, 0);
         for (ResolveInfo ri : dictPacks) {
             ApplicationInfo appInfo = ri.activityInfo.applicationInfo;

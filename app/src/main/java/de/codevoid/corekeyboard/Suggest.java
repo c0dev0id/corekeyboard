@@ -34,7 +34,7 @@ import android.view.View;
  * @hide pending API Council Approval
  */
 public class Suggest implements Dictionary.WordCallback {
-	private static String TAG = "PCKeyboard";
+	private static String TAG = "CoreKeyboard";
 	
     public static final int APPROX_MAX_WORD_LENGTH = 32;
 
