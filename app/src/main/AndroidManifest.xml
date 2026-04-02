@@ -18,6 +18,7 @@
 
         <service android:name="LatinIME"
                 android:label="@string/english_ime_name"
+                android:exported="true"
                 android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
@@ -25,14 +26,16 @@
             <meta-data android:name="android.view.im" android:resource="@xml/method" />
         </service>
 
-        <activity android:name="Main" android:label="Hacker's Keyboard">
+        <activity android:name="Main" android:label="Hacker's Keyboard"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="LatinIMESettings" android:label="@string/english_ime_settings">
+        <activity android:name="LatinIMESettings" android:label="@string/english_ime_settings"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="de.codevoid.corekeyboard.SETTINGS"/>
@@ -41,7 +44,8 @@
         </activity>
 
         <activity android:name="InputLanguageSelection"
-                android:label="@string/language_selection_title">
+                android:label="@string/language_selection_title"
+                android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="de.codevoid.corekeyboard.INPUT_LANGUAGE_SELECTION"/>
@@ -50,7 +54,8 @@
         </activity>
 
         <activity android:name="PrefScreenActions"
-                android:label="@string/pref_screen_actions_title">
+                android:label="@string/pref_screen_actions_title"
+                android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="de.codevoid.corekeyboard.PREFS_ACTIONS"/>
@@ -59,7 +64,8 @@
         </activity>
             
         <activity android:name="PrefScreenView"
-                android:label="@string/pref_screen_actions_title">
+                android:label="@string/pref_screen_actions_title"
+                android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="de.codevoid.corekeyboard.PREFS_VIEW"/>
@@ -68,7 +74,8 @@
         </activity>
 
         <activity android:name="PrefScreenFeedback"
-                android:label="@string/pref_screen_feedback_title">
+                android:label="@string/pref_screen_feedback_title"
+                android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="de.codevoid.corekeyboard.PREFS_FEEDBACK"/>
