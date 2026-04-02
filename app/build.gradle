@@ -6,11 +6,11 @@ def keyAliasName     = System.getenv("KEY_ALIAS")
 def keyAliasPassword = System.getenv("KEY_PASSWORD")
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 34
     defaultConfig {
         applicationId 'de.codevoid.corekeyboard'
-        minSdkVersion 14
-        targetSdkVersion 26
+        minSdkVersion 34
+        targetSdkVersion 34
         versionCode 1041001
         versionName "v1.41.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
