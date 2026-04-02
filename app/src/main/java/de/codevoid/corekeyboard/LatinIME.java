@@ -37,7 +37,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.inputmethodservice.InputMethodService;
 import android.media.AudioManager;
-import android.os.Build;
+import android.app.Notification;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -45,8 +45,6 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -460,19 +458,13 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.notification_channel_name);
-            String description = getString(R.string.notification_channel_description);
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        CharSequence name = getString(R.string.notification_channel_name);
+        String description = getString(R.string.notification_channel_description);
+        int importance = NotificationManager.IMPORTANCE_LOW;
+        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
+        channel.setDescription(description);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
     private void setNotification(boolean visible) {
@@ -481,58 +473,39 @@ public class LatinIME extends InputMethodService implements
 
         if (visible && mNotificationReceiver == null) {
             createNotificationChannel();
-            int icon = R.drawable.icon;
             CharSequence text = "Keyboard notification enabled.";
-            long when = System.currentTimeMillis();
 
-            // TODO: clean this up?
             mNotificationReceiver = new NotificationReceiver(this);
             final IntentFilter pFilter = new IntentFilter(NotificationReceiver.ACTION_SHOW);
             pFilter.addAction(NotificationReceiver.ACTION_SETTINGS);
             registerReceiver(mNotificationReceiver, pFilter);
             
             Intent notificationIntent = new Intent(NotificationReceiver.ACTION_SHOW);
-            PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, 0);
-            //PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            PendingIntent contentIntent = PendingIntent.getBroadcast(
+                    getApplicationContext(), 1, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
             Intent configIntent = new Intent(NotificationReceiver.ACTION_SETTINGS);
-            PendingIntent configPendingIntent =
-                    PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, 0);
+            PendingIntent configPendingIntent = PendingIntent.getBroadcast(
+                    getApplicationContext(), 2, configIntent, PendingIntent.FLAG_IMMUTABLE);
 
             String title = "Show Hacker's Keyboard";
             String body = "Select this to open the keyboard. Disable in settings.";
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            Notification notification = new Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
                     .setSmallIcon(R.drawable.icon_hk_notification)
                     .setColor(0xff220044)
-                    .setAutoCancel(false) //Make this notification automatically dismissed when the user touches it -> false.
+                    .setAutoCancel(false)
                     .setTicker(text)
                     .setContentTitle(title)
                     .setContentText(body)
                     .setContentIntent(contentIntent)
                     .setOngoing(true)
-                    .addAction(R.drawable.icon_hk_notification, getString(R.string.notification_action_settings),
-                            configPendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    .addAction(new Notification.Action.Builder(
+                            null, getString(R.string.notification_action_settings),
+                            configPendingIntent).build())
+                    .build();
 
-            /*
-            Notification notification = new Notification.Builder(getApplicationContext())
-                    .setAutoCancel(false) //Make this notification automatically dismissed when the user touches it -> false.
-                    .setTicker(text)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setWhen(when)
-                    .setSmallIcon(icon)
-                    .setContentIntent(contentIntent)
-                    .getNotification();
-            notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_NO_CLEAR;
-            mNotificationManager.notify(ID, notification);
-            */
-
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-            // notificationId is a unique int for each notification that you must define
-            notificationManager.notify(NOTIFICATION_ONGOING_ID, mBuilder.build());
+            mNotificationManager.notify(NOTIFICATION_ONGOING_ID, notification);
 
         } else if (mNotificationReceiver != null) {
             mNotificationManager.cancel(NOTIFICATION_ONGOING_ID);
@@ -1460,17 +1433,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void onOptionKeyPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            // Input method selector is available as a button in the soft key area, so just launch
-            // HK settings directly. This also works around the alert dialog being clipped
-            // in Android O.
-            startActivity(new Intent(this, LatinIMESettings.class));
-        } else {
-            // Show an options menu with choices to change input method or open HK settings.
-            if (!isShowingOptionDialog()) {
-                 showOptionsMenu();
-            }
-        }
+        startActivity(new Intent(this, LatinIMESettings.class));
     }
 
     private void onOptionKeyLongPressed() {

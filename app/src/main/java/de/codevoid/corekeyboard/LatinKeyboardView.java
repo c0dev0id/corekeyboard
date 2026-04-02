@@ -25,7 +25,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import de.codevoid.corekeyboard.Keyboard.Key;
 
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -155,11 +154,6 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
 
         final Resources res = getResources();
 
-        // If true, popups are forced to remain inside the keyboard area. If false,
-        // they can extend above it. Enable clipping just for Android P since drawing
-        // outside the keyboard area doesn't work on that version.
-        boolean clippingEnabled = (Build.VERSION.SDK_INT >= 28 /* Build.VERSION_CODES.P */);
-
         if (previewLayout != 0) {
             mPreviewPopup = new PopupWindow(context);
             if (!isInEditMode())
@@ -170,7 +164,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mPreviewPopup.setBackgroundDrawable(null);
             mPreviewPopup.setTouchable(false);
             mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
-            mPreviewPopup.setClippingEnabled(clippingEnabled);
+            mPreviewPopup.setClippingEnabled(true);
         } else {
             mShowPreview = false;
         }
@@ -182,7 +176,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 Log.i(TAG, "new mMiniKeyboardPopup " + mMiniKeyboardPopup + " from " + this);
             mMiniKeyboardPopup.setBackgroundDrawable(null);
             mMiniKeyboardPopup.setAnimationStyle(R.style.MiniKeyboardAnimation);
-            mMiniKeyboardPopup.setClippingEnabled(clippingEnabled);
+            mMiniKeyboardPopup.setClippingEnabled(true);
             mMiniKeyboardVisible = false;
         }
     }
