@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Paste key: the special key slot (previously settings-only) now shows a paste key when the preference is set to "Paste key". Tapping it pastes from the clipboard via the current InputConnection. The settings key still takes precedence when set to "Settings key" or "Auto".
 - "DMD Orange" keyboard theme with dark background and orange accents
 - Nightly CI workflow (`.github/workflows/nightly.yml`): builds a signed release APK daily at 02:00 UTC and publishes it to the `nightly` pre-release on GitHub.
 - ProGuard/R8 keep rules in `app/proguard-rules.pro` for JNI entry points (`BinaryDictionary`), XML-inflated views (`LatinKeyboardView`, `CandidateView`), and custom preference widgets.

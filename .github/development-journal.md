@@ -22,6 +22,9 @@ With minSdk 34, the framework `Notification.Builder` API is complete. No need fo
 ### Resources.updateConfiguration() still in use
 `updateConfiguration()` (deprecated API 25) is used in 3 files to temporarily switch locale for resource loading. The modern replacement `createConfigurationContext()` requires a deeper refactor — each call site would need to create a new Context and load resources from it. Deferred for now.
 
+### Special key slot: settings vs. paste
+The bottom row has a single "special key" slot controlled by the `settings_key` preference. Previously it showed a settings key or nothing. Now it always shows either a settings key or a paste key. The preference option formerly called "Always hide" (which left the slot empty) is now "Paste key" — the slot always holds one of the two keys. New keyboard mode IDs (`*_with_paste_key`) were added for all qwerty and symbols layout variants; `getKeyboardId()` selects between settings-key and paste-key modes based on `mHasSettingsKey`. Paste is implemented via `InputConnection.performContextMenuAction(android.R.id.paste)`, the correct IME-layer path that delegates to the editor's own paste handling.
+
 ## Core Features
 
 - Software keyboard (IME) with full 5-row layout
