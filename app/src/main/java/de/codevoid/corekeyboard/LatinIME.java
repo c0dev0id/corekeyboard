@@ -1958,6 +1958,9 @@ public class LatinIME extends InputMethodService implements
                 handleClose();
             }
             break;
+        case LatinKeyboardView.KEYCODE_PASTE:
+            getCurrentInputConnection().performContextMenuAction(android.R.id.paste);
+            break;
         case LatinKeyboardView.KEYCODE_OPTIONS:
             onOptionKeyPressed();
             break;

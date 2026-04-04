@@ -53,11 +53,19 @@ public class KeyboardSwitcher implements
     public static final int KEYBOARDMODE_EMAIL_WITH_SETTINGS_KEY = R.id.mode_email_with_settings_key;
     public static final int KEYBOARDMODE_IM_WITH_SETTINGS_KEY = R.id.mode_im_with_settings_key;
     public static final int KEYBOARDMODE_WEB_WITH_SETTINGS_KEY = R.id.mode_webentry_with_settings_key;
+    // Main keyboard layouts with the paste key
+    public static final int KEYBOARDMODE_NORMAL_WITH_PASTE_KEY = R.id.mode_normal_with_paste_key;
+    public static final int KEYBOARDMODE_URL_WITH_PASTE_KEY = R.id.mode_url_with_paste_key;
+    public static final int KEYBOARDMODE_EMAIL_WITH_PASTE_KEY = R.id.mode_email_with_paste_key;
+    public static final int KEYBOARDMODE_IM_WITH_PASTE_KEY = R.id.mode_im_with_paste_key;
+    public static final int KEYBOARDMODE_WEB_WITH_PASTE_KEY = R.id.mode_webentry_with_paste_key;
 
     // Symbols keyboard layout without the settings key
     public static final int KEYBOARDMODE_SYMBOLS = R.id.mode_symbols;
     // Symbols keyboard layout with the settings key
     public static final int KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY = R.id.mode_symbols_with_settings_key;
+    // Symbols keyboard layout with the paste key
+    public static final int KEYBOARDMODE_SYMBOLS_WITH_PASTE_KEY = R.id.mode_symbols_with_paste_key;
 
     public static final String DEFAULT_LAYOUT_ID = "0";
     public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout";
@@ -91,7 +99,12 @@ public class KeyboardSwitcher implements
             KEYBOARDMODE_URL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_EMAIL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_IM_WITH_SETTINGS_KEY,
-            KEYBOARDMODE_WEB_WITH_SETTINGS_KEY };
+            KEYBOARDMODE_WEB_WITH_SETTINGS_KEY,
+            KEYBOARDMODE_NORMAL_WITH_PASTE_KEY,
+            KEYBOARDMODE_URL_WITH_PASTE_KEY,
+            KEYBOARDMODE_EMAIL_WITH_PASTE_KEY,
+            KEYBOARDMODE_IM_WITH_PASTE_KEY,
+            KEYBOARDMODE_WEB_WITH_PASTE_KEY };
 
     private LatinIME mInputMethodService;
 
@@ -185,7 +198,7 @@ public class KeyboardSwitcher implements
         }
         return new KeyboardId(KBD_SYMBOLS,
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                        : KEYBOARDMODE_SYMBOLS, false, hasVoice);
+                        : KEYBOARDMODE_SYMBOLS_WITH_PASTE_KEY, false, hasVoice);
     }
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
@@ -193,7 +206,7 @@ public class KeyboardSwitcher implements
             return null;
         return new KeyboardId(KBD_SYMBOLS_SHIFT,
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                        : KEYBOARDMODE_SYMBOLS, false, hasVoice);
+                        : KEYBOARDMODE_SYMBOLS_WITH_PASTE_KEY, false, hasVoice);
     }
 
     public void makeKeyboards(boolean forceCreate) {
@@ -380,7 +393,7 @@ public class KeyboardSwitcher implements
                 return new KeyboardId(
                         KBD_SYMBOLS,
                         mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                                : KEYBOARDMODE_SYMBOLS, false, hasVoice);
+                                : KEYBOARDMODE_SYMBOLS_WITH_PASTE_KEY, false, hasVoice);
             }
         }
         switch (mode) {
@@ -389,29 +402,29 @@ public class KeyboardSwitcher implements
         case MODE_TEXT:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_NORMAL_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_NORMAL, true, hasVoice);
+                            : KEYBOARDMODE_NORMAL_WITH_PASTE_KEY, true, hasVoice);
         case MODE_SYMBOLS:
             return new KeyboardId(KBD_SYMBOLS,
                     mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_SYMBOLS, false, hasVoice);
+                            : KEYBOARDMODE_SYMBOLS_WITH_PASTE_KEY, false, hasVoice);
         case MODE_PHONE:
             return new KeyboardId(KBD_PHONE, 0, false, hasVoice);
         case MODE_URL:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_URL_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_URL, true, hasVoice);
+                            : KEYBOARDMODE_URL_WITH_PASTE_KEY, true, hasVoice);
         case MODE_EMAIL:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_EMAIL_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_EMAIL, true, hasVoice);
+                            : KEYBOARDMODE_EMAIL_WITH_PASTE_KEY, true, hasVoice);
         case MODE_IM:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_IM_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_IM, true, hasVoice);
+                            : KEYBOARDMODE_IM_WITH_PASTE_KEY, true, hasVoice);
         case MODE_WEB:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_WEB_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_WEB, true, hasVoice);
+                            : KEYBOARDMODE_WEB_WITH_PASTE_KEY, true, hasVoice);
         }
         return null;
     }
