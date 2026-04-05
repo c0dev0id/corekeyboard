@@ -19,6 +19,7 @@ package de.codevoid.corekeyboard;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.backup.BackupManager;
 import android.content.DialogInterface;
@@ -45,14 +46,17 @@ public class LatinIMESettings extends PreferenceActivity
     private static final String PREDICTION_SETTINGS_KEY = "prediction_settings";
     private static final String VOICE_SETTINGS_KEY = "voice_mode";
     /* package */ static final String PREF_SETTINGS_KEY = "settings_key";
-    static final String INPUT_CONNECTION_INFO = "input_connection_info";    
+    static final String INPUT_CONNECTION_INFO = "input_connection_info";
+    private static final String PREF_KEYBOARD_NOTIFICATION = "keyboard_notification";
 
     private static final String TAG = "LatinIMESettings";
 
     // Dialog ids
     private static final int VOICE_INPUT_CONFIRM_DIALOG = 0;
+    private static final int REQUEST_CODE_POST_NOTIFICATIONS = 1;
 
     private CheckBoxPreference mQuickFixes;
+    private CheckBoxPreference mNotificationPreference;
     private ListPreference mVoicePreference;
     private ListPreference mSettingsKeyPreference;
     private ListPreference mKeyboardModePortraitPreference;
@@ -70,6 +74,7 @@ public class LatinIMESettings extends PreferenceActivity
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.prefs);
         mQuickFixes = (CheckBoxPreference) findPreference(QUICK_FIXES_KEY);
+        mNotificationPreference = (CheckBoxPreference) findPreference(PREF_KEYBOARD_NOTIFICATION);
         mVoicePreference = (ListPreference) findPreference(VOICE_SETTINGS_KEY);
         mSettingsKeyPreference = (ListPreference) findPreference(PREF_SETTINGS_KEY);
         mInputConnectionInfo = (Preference) findPreference(INPUT_CONNECTION_INFO);
@@ -145,8 +150,27 @@ public class LatinIMESettings extends PreferenceActivity
         super.onDestroy();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_CODE_POST_NOTIFICATIONS
+                && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            mNotificationPreference.setChecked(true);
+        }
+    }
+
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         (new BackupManager(this)).dataChanged();
+        if (PREF_KEYBOARD_NOTIFICATION.equals(key)) {
+            boolean enabled = prefs.getBoolean(key, false);
+            if (enabled && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                mNotificationPreference.setChecked(false);
+                requestPermissions(
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        REQUEST_CODE_POST_NOTIFICATIONS);
+            }
+        }
         // If turning on voice input, show dialog
         if (key.equals(VOICE_SETTINGS_KEY) && !mVoiceOn) {
             if (!prefs.getString(VOICE_SETTINGS_KEY, mVoiceModeOff)
