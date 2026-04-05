@@ -28,6 +28,8 @@ The notification broadcast receiver uses custom actions (`de.codevoid.corekeyboa
 ### Special key slot: settings vs. paste
 The bottom row has a single "special key" slot controlled by the `settings_key` preference. Previously it showed a settings key or nothing. Now it always shows either a settings key or a paste key. The preference option formerly called "Always hide" (which left the slot empty) is now "Paste key" — the slot always holds one of the two keys. New keyboard mode IDs (`*_with_paste_key`) were added for all qwerty and symbols layout variants; `getKeyboardId()` selects between settings-key and paste-key modes based on `mHasSettingsKey`. Paste is implemented via `InputConnection.performContextMenuAction(android.R.id.paste)`, the correct IME-layer path that delegates to the editor's own paste handling.
 
+**Important**: The `_with_paste_key` rows must be present in every locale-specific `res/xml-{locale}/kbd_qwerty.xml`, not just the default `res/xml/kbd_qwerty.xml`. Android's resource system fully replaces the default XML with the locale-specific one — there is no fallback/merge. Missing rows cause the entire bottom row to disappear because no `<Row>` matches the active `keyboardMode`.
+
 ## Core Features
 
 - Software keyboard (IME) with full 5-row layout
