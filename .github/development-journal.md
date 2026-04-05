@@ -19,6 +19,9 @@ Order of work: rebrand → delete unused code → upgrade libraries. This avoids
 ### Framework Notification.Builder over NotificationCompat
 With minSdk 34, the framework `Notification.Builder` API is complete. No need for `NotificationCompat` or any support library at all — the app has zero external runtime dependencies.
 
+### Notification receiver requires RECEIVER_NOT_EXPORTED
+The notification broadcast receiver uses custom actions (`de.codevoid.corekeyboard.SHOW`, `de.codevoid.corekeyboard.SETTINGS`) which are not protected system broadcasts. On API 34, `registerReceiver()` for non-system broadcasts requires `RECEIVER_NOT_EXPORTED` or `RECEIVER_EXPORTED`. Since the broadcasts originate from the app's own `PendingIntent`, `RECEIVER_NOT_EXPORTED` is correct. The other two receivers (package changes, ringer mode) use protected system broadcasts and are exempt.
+
 ### Resources.updateConfiguration() still in use
 `updateConfiguration()` (deprecated API 25) is used in 3 files to temporarily switch locale for resource loading. The modern replacement `createConfigurationContext()` requires a deeper refactor — each call site would need to create a new Context and load resources from it. Deferred for now.
 

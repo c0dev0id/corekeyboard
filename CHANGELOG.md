@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - ProGuard/R8 keep rules in `app/proguard-rules.pro` for JNI entry points (`BinaryDictionary`), XML-inflated views (`LatinKeyboardView`, `CandidateView`), and custom preference widgets.
 
 ### Fixed
+- Crash when enabling the persistent notification setting: missing `RECEIVER_NOT_EXPORTED` flag on dynamically registered broadcast receiver (required on API 34), missing `POST_NOTIFICATIONS` runtime permission request, and missing `FLAG_ACTIVITY_NEW_TASK` when opening settings from the notification action
 - Crash when pressing the Options key on the keyboard: `startActivity()` from IME service context was missing `FLAG_ACTIVITY_NEW_TASK`
 - Crash when opening View, Feedback, Actions, or Language sub-screens in settings: implicit intents cannot start non-exported activities on API 31+ (even within the same app); preference XML intents are now explicit (package + class)
 - Settings key on keyboard no longer opens settings: `launchSettings()` was calling `requestHideSelf()` before `startActivity()`, causing Android 12+ background activity start restriction to silently block the launch; now starts the activity while the IME window is still visible
