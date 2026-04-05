@@ -479,7 +479,7 @@ public class LatinIME extends InputMethodService implements
             mNotificationReceiver = new NotificationReceiver(this);
             final IntentFilter pFilter = new IntentFilter(NotificationReceiver.ACTION_SHOW);
             pFilter.addAction(NotificationReceiver.ACTION_SETTINGS);
-            registerReceiver(mNotificationReceiver, pFilter);
+            registerReceiver(mNotificationReceiver, pFilter, Context.RECEIVER_NOT_EXPORTED);
             
             Intent notificationIntent = new Intent(NotificationReceiver.ACTION_SHOW);
             PendingIntent contentIntent = PendingIntent.getBroadcast(
