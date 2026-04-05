@@ -31,7 +31,9 @@ public class NotificationReceiver extends BroadcastReceiver {
                 imm.showSoftInputFromInputMethod(mIME.mToken, InputMethodManager.SHOW_FORCED);
             }
         } else if (action.equals(ACTION_SETTINGS)) {
-            context.startActivity(new Intent(mIME, LatinIMESettings.class));
+            Intent settingsIntent = new Intent(mIME, LatinIMESettings.class);
+            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(settingsIntent);
         }
     }
 }
