@@ -1145,6 +1145,19 @@ public class LatinIME extends InputMethodService implements
         super.onComputeInsets(outInsets);
         if (!isFullscreenMode()) {
             outInsets.contentTopInsets = outInsets.visibleTopInsets;
+
+            // When candidates are hidden, the framework's internal candidates
+            // area wrapper may still contribute residual height to the inset
+            // calculation. Recompute based on the actual input view position.
+            if (mCandidateViewContainer == null) {
+                View inputView = mKeyboardSwitcher.getInputView();
+                if (inputView != null) {
+                    int[] loc = new int[2];
+                    inputView.getLocationInWindow(loc);
+                    outInsets.visibleTopInsets = loc[1];
+                    outInsets.contentTopInsets = loc[1];
+                }
+            }
         }
     }
 
@@ -2984,6 +2997,7 @@ public class LatinIME extends InputMethodService implements
                     PREF_SHOW_SUGGESTIONS, res.getBoolean(R.bool.default_suggestions));
             mSuggestionForceOff = false;
             mSuggestionForceOn = false;
+            setCandidatesViewShown(isPredictionOn());
             needReload = true;
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
             mHeightPortrait = getHeight(sharedPreferences,

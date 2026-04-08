@@ -30,6 +30,9 @@ The bottom row has a single "special key" slot controlled by the `settings_key` 
 
 **Important**: The `_with_paste_key` rows must be present in every locale-specific `res/xml-{locale}/kbd_qwerty.xml`, not just the default `res/xml/kbd_qwerty.xml`. Android's resource system fully replaces the default XML with the locale-specific one — there is no fallback/merge. Missing rows cause the entire bottom row to disappear because no `<Row>` matches the active `keyboardMode`.
 
+### Candidates area insets override
+`InputMethodService` wraps the candidates view in an internal `FrameLayout`. Even when `setCandidatesViewShown(false)` sets this wrapper to `GONE`, `super.onComputeInsets()` can still include its residual height — causing a phantom gap above the keyboard that apps use to miscalculate viewport size. The fix in `onComputeInsets()` detects when `mCandidateViewContainer == null` (candidates hidden) and recomputes `visibleTopInsets`/`contentTopInsets` from the actual keyboard view's window position via `getLocationInWindow()`.
+
 ## Core Features
 
 - Software keyboard (IME) with full 5-row layout
