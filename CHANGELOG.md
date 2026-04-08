@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - ProGuard/R8 keep rules in `app/proguard-rules.pro` for JNI entry points (`BinaryDictionary`), XML-inflated views (`LatinKeyboardView`, `CandidateView`), and custom preference widgets.
 
 ### Fixed
+- Empty gap above keyboard when suggestions are disabled: the framework's candidates area wrapper could retain residual height in the inset calculation, causing apps (notably Firefox) to miscalculate viewport size and partially hide focused form fields behind the gap
+- Toggling the "Show suggestions" preference while the keyboard is visible now immediately updates the candidates strip visibility
 - Paste key bottom row missing on all non-default keyboard locales: the `_with_paste_key` row variants were only defined in the default layout but absent from all 33 locale-specific `kbd_qwerty.xml` files, causing the entire bottom row to vanish when "Paste key" was selected in settings
 - Crash when enabling the persistent notification setting: missing `RECEIVER_NOT_EXPORTED` flag on dynamically registered broadcast receiver (required on API 34), missing `POST_NOTIFICATIONS` runtime permission request, and missing `FLAG_ACTIVITY_NEW_TASK` when opening settings from the notification action
 - Crash when pressing the Options key on the keyboard: `startActivity()` from IME service context was missing `FLAG_ACTIVITY_NEW_TASK`
