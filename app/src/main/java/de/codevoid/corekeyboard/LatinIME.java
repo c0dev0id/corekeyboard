@@ -2997,6 +2997,7 @@ public class LatinIME extends InputMethodService implements
                     PREF_SHOW_SUGGESTIONS, res.getBoolean(R.bool.default_suggestions));
             mSuggestionForceOff = false;
             mSuggestionForceOn = false;
+            setCandidatesViewShown(isPredictionOn());
             needReload = true;
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
             mHeightPortrait = getHeight(sharedPreferences,
