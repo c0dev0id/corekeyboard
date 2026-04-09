@@ -31,7 +31,12 @@ The bottom row has a single "special key" slot controlled by the `settings_key` 
 **Important**: The `_with_paste_key` rows must be present in every locale-specific `res/xml-{locale}/kbd_qwerty.xml`, not just the default `res/xml/kbd_qwerty.xml`. Android's resource system fully replaces the default XML with the locale-specific one — there is no fallback/merge. Missing rows cause the entire bottom row to disappear because no `<Row>` matches the active `keyboardMode`.
 
 ### Candidates area insets override
-`InputMethodService` wraps the candidates view in an internal `FrameLayout`. Even when `setCandidatesViewShown(false)` sets this wrapper to `GONE`, `super.onComputeInsets()` can still include its residual height — causing a phantom gap above the keyboard that apps use to miscalculate viewport size. The fix in `onComputeInsets()` detects when `mCandidateViewContainer == null` (candidates hidden) and recomputes `visibleTopInsets`/`contentTopInsets` from the actual keyboard view's window position via `getLocationInWindow()`.
+`InputMethodService` wraps the candidates view in an internal `FrameLayout`. Even when `setCandidatesViewShown(false)` sets this wrapper to `GONE`, `super.onComputeInsets()` can still include its residual height — causing a phantom gap above the keyboard that apps using `adjustResize` (notably Firefox) interpret as real space between their content and the keyboard.
+
+Three-layer fix:
+1. **`removeCandidateViewContainer()`** — after removing the child view, force the internal wrapper's `LayoutParams.height` to 0 and call `requestLayout()`. This eliminates residual height at the source.
+2. **`onCreateCandidatesView()`** — restore the wrapper's height to `WRAP_CONTENT` after `setCandidatesView()` re-adds the child, undoing the zeroing from step 1.
+3. **`onComputeInsets()`** — when candidates are hidden, recompute `visibleTopInsets`/`contentTopInsets` from the keyboard view's actual window position and set `touchableInsets = TOUCHABLE_INSETS_VISIBLE` so the framework uses the corrected values.
 
 ## Core Features
 
