@@ -708,6 +708,13 @@ public class LatinIME extends InputMethodService implements
             mCandidateView.setPadding(0, 0, 0, 0);
             mCandidateView.setService(this);
             setCandidatesView(mCandidateViewContainer);
+            // Restore wrapper height (may have been zeroed by
+            // removeCandidateViewContainer).
+            ViewParent parent = mCandidateViewContainer.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).getLayoutParams().height =
+                        ViewGroup.LayoutParams.WRAP_CONTENT;
+            }
         }
         return mCandidateViewContainer;
     }
@@ -717,8 +724,16 @@ public class LatinIME extends InputMethodService implements
         if (mCandidateViewContainer != null) {
             mCandidateViewContainer.removeAllViews();
             ViewParent parent = mCandidateViewContainer.getParent();
-            if (parent != null && parent instanceof ViewGroup) {
-                ((ViewGroup) parent).removeView(mCandidateViewContainer);
+            if (parent instanceof ViewGroup) {
+                ViewGroup wrapper = (ViewGroup) parent;
+                wrapper.removeView(mCandidateViewContainer);
+                // Force the framework's internal candidates area wrapper to
+                // zero height. Even after setCandidatesViewShown(false) sets it
+                // to GONE, residual layout height can leak into the inset
+                // calculation, producing a visible gap in apps that use
+                // adjustResize (notably Firefox).
+                wrapper.getLayoutParams().height = 0;
+                wrapper.requestLayout();
             }
             mCandidateViewContainer = null;
             mCandidateView = null;
@@ -1148,7 +1163,9 @@ public class LatinIME extends InputMethodService implements
 
             // When candidates are hidden, the framework's internal candidates
             // area wrapper may still contribute residual height to the inset
-            // calculation. Recompute based on the actual input view position.
+            // calculation. Recompute based on the actual input view position
+            // and force TOUCHABLE_INSETS_VISIBLE so apps that use adjustResize
+            // (e.g. Firefox) use our corrected visibleTopInsets.
             if (mCandidateViewContainer == null) {
                 View inputView = mKeyboardSwitcher.getInputView();
                 if (inputView != null) {
@@ -1156,6 +1173,7 @@ public class LatinIME extends InputMethodService implements
                     inputView.getLocationInWindow(loc);
                     outInsets.visibleTopInsets = loc[1];
                     outInsets.contentTopInsets = loc[1];
+                    outInsets.touchableInsets = Insets.TOUCHABLE_INSETS_VISIBLE;
                 }
             }
         }
